@@ -80,7 +80,7 @@ void insert(struct node* n, struct node** root) {
 struct node *createNode(char* hash, char *file) {
 	struct node* temp;
 
-	if ((temp = (struct node*)malloc(sizeof(struct node*))) == NULL) {
+	if ((temp = (struct node*)malloc(sizeof(struct node))) == NULL) {
 		printf("ERROR\n");
 		exit(1);	
 	}

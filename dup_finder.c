@@ -25,7 +25,7 @@ int is_dir(char *path_name);
 int main(int argc, char **argv) {
 
   struct node* root;
-  root = createNode(NULL, NULL);    // emplty pointers
+  //root = createNode(NULL, NULL);    // emplty pointers
   printf("------- Root ----------\n");
 
   printf("%s\n", argv[1]);
@@ -110,7 +110,7 @@ void print_descendants(char *pathname, struct node** rt) {
       insert(temp, rt);
 
       // Close file
-      close(fp);
+      fclose(fp);
 
       print_descendants(path, rt);
     }
