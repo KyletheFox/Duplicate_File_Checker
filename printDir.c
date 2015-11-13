@@ -52,7 +52,7 @@ void print_descendants(char *pathname, int depth) {
 
     while ((p = readdir(d)) != NULL) {
       if (strcmp(".", p->d_name)==0 || /* skip "." and ".." */
-    strcmp("..", p->d_name)==0)
+    strcmp("..", p->d_name)==0 || strcmp(".git", p->d_name)==0)
   continue;
       make_space(depth*SPACES_PER_INDENT_LEVEL);
       printf("%s\n", p->d_name);

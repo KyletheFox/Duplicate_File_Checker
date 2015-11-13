@@ -24,11 +24,14 @@ int is_dir(char *path_name);
 */
 int main(int argc, char **argv) {
 
-  struct node* root = NULL;
+  struct node* root;
+  root = createNode(NULL, NULL);    // emplty pointers
+  printf("------- Root ----------\n");
+
   printf("%s\n", argv[1]);
   print_descendants(argv[1], &root);
 
-  printTree(&root);
+  printTree(root);
 
   return EXIT_SUCCESS;
 }
@@ -36,8 +39,10 @@ int main(int argc, char **argv) {
 /* returns 1 if path_name represents a directory
    0 if it isn't */
 int is_dir(char *path_name) {
+
+  printf("pathname: %s\n", path_name);
   struct stat buff;
-  
+
   if (stat(path_name, &buff) < 0){
     fprintf(stderr, "stat: %s\n", strerror(errno));
     return 0;
@@ -46,24 +51,32 @@ int is_dir(char *path_name) {
   return S_ISDIR(buff.st_mode);
 }
 
-void print_descendants(char *pathname, struct node** root) {
+void print_descendants(char *pathname, struct node** rt) {
+
   if (is_dir(pathname)) {
+//Gets past here
+    printf("BP\n");
+
+
+    printf("address of pathname: %x\n", pathname);
     DIR *d;
-    struct dirent *p;
     FILE *fp;
+    struct dirent *p;
+    
     char *hashValue;
     char path[MAX_PATH_LENGTH];
-    struct node* temp;
-    root = NULL;
+    struct node *temp;
     
+    printf("BP2\n");
     if ((d = opendir(pathname)) == NULL){
       fprintf(stderr, "opendir %s  %s\n", path, strerror(errno));
       return;
     } 
+    printf("BP3\n");
 
     while ((p = readdir(d)) != NULL) {
       if (strcmp(".", p->d_name)==0 || /* skip "." and ".." */
-        strcmp("..", p->d_name)==0)
+        strcmp("..", p->d_name)==0 || strcmp(".git", p->d_name)==0)
         continue;
 
       //make_space(depth*SPACES_PER_INDENT_LEVEL);
@@ -89,13 +102,17 @@ void print_descendants(char *pathname, struct node** root) {
       //Create node and insert into tree
       temp = createNode(hashValue, p->d_name);
 
+      printf("Temp address: %x\n", temp);
+      printf("Temp left address: %x\n", temp->left);
+      printf("Temp right address: %x\n", temp->right);
+
       // Insert into tree
-      insert(temp, &root);
+      insert(temp, rt);
 
       // Close file
       close(fp);
 
-      print_descendants(path, &root);
+      print_descendants(path, rt);
     }
 
     closedir(d);

@@ -46,10 +46,16 @@ int main(int argc, char const *argv[]) {
 
 void insert(struct node* n, struct node** root) {
 
-	//printf("Hash str input: %s\n", n->hash);
-	//printf("root address: %x\n", &(*root));
+ 	printf("Address of n: %x\n", n);
+	printf("Address of n->left: %x\n", n->left);
+	printf("Address of n->right: %x\n", n->right);
+
+	printf("Address of root: %x\n", (*root));
+	printf("Address of root->left: %x\n", (*root)->left);
+	printf("Address of root->right: %x\n", (*root)->right);
 
 	if (*root == NULL) {
+		printf("*root == NULL : True\n");
 		printf("File Inserted: %s\n", n->fileName);
 		*root = n;
 	}
@@ -74,17 +80,19 @@ void insert(struct node* n, struct node** root) {
 struct node *createNode(char* hash, char *file) {
 	struct node* temp;
 
-	if ((temp = (struct node*)malloc(sizeof(*temp))) == NULL) {
+	if ((temp = (struct node*)malloc(sizeof(struct node*))) == NULL) {
 		printf("ERROR\n");
 		exit(1);	
 	}
 
-	//printf("Address of new node: %x\n", temp);
 	temp->copy = 0;
 	temp->hash = hash;
 	temp->fileName = file;
 	temp->left = NULL;
 	temp->right = NULL;
+    printf("Address of node: %x\n", temp);
+	printf("Address of new left node: %x\n", temp->left);
+	printf("Address of new right node: %x\n", temp->right);
 
 	return temp;
 }
