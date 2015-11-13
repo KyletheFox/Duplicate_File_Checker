@@ -25,10 +25,8 @@ int is_dir(char *path_name);
 int main(int argc, char **argv) {
 
   struct node* root;
-  //root = createNode(NULL, NULL);    // emplty pointers
-  printf("------- Root ----------\n");
+  root = NULL;
 
-  printf("%s\n", argv[1]);
   print_descendants(argv[1], &root);
 
   printTree(root);
@@ -40,77 +38,59 @@ int main(int argc, char **argv) {
    0 if it isn't */
 int is_dir(char *path_name) {
 
-  printf("pathname: %s\n", path_name);
   struct stat buff;
 
   if (stat(path_name, &buff) < 0){
     fprintf(stderr, "stat: %s\n", strerror(errno));
     return 0;
   }
-
+  printf("checking if dir: %s\n", path_name);
+  printf("1 for dir, 0 for file: %d\n\n", S_ISDIR(buff.st_mode));
   return S_ISDIR(buff.st_mode);
 }
 
 void print_descendants(char *pathname, struct node** rt) {
 
   if (is_dir(pathname)) {
-//Gets past here
-    printf("BP\n");
 
-
-    printf("address of pathname: %x\n", pathname);
     DIR *d;
-    FILE *fp;
     struct dirent *p;
     
     char *hashValue;
     char path[MAX_PATH_LENGTH];
     struct node *temp;
     
-    printf("BP2\n");
     if ((d = opendir(pathname)) == NULL){
       fprintf(stderr, "opendir %s  %s\n", path, strerror(errno));
       return;
     } 
-    printf("BP3\n");
 
     while ((p = readdir(d)) != NULL) {
       if (strcmp(".", p->d_name)==0 || /* skip "." and ".." */
-        strcmp("..", p->d_name)==0 || strcmp(".git", p->d_name)==0)
+        strcmp("..", p->d_name)==0 || strcmp(".git", p->d_name)==0 )
         continue;
 
-      //make_space(depth*SPACES_PER_INDENT_LEVEL);
-      //printf("this is what p->d_name is: %s\n", p->d_name);
+      //printf("pathname: %s\n", pathname);
+      //printf("p->d_name: %s\n", p->d_name);
+      if (is_dir(p->d_name)) {
+        // Generatate Hash String
+        if ((hashValue = (char*)malloc(SHA_DIGEST_LENGTH*2+1)) == NULL)  {
+         printf("ERROR: No more space\n");
+         exit(1);
+        }
+      
+       // Generate hash
+       getHash(p->d_name, hashValue);
 
-      // Open File
-      if ((fp=fopen(p->d_name, "r"))==NULL) {
-          printf("ERROR: File Doesn't Exist\n");
-          exit(1);
+       //Create node and insert into tree
+       temp = createNode(hashValue, p->d_name);
+
+       // Insert into new Node
+       insert(temp, rt);
       }
 
-      // Generatate Hash String
-      if ((hashValue = (char*)malloc(SHA_DIGEST_LENGTH*2+1)) == NULL)  {
-        printf("ERROR: No more space\n");
-        exit(1);
-      }
-      // Generate hash
-      getHash(fp, hashValue);
-
-      // Set file name
+      // Set next file name
       snprintf(path, MAX_PATH_LENGTH, "%s/%s", pathname, p->d_name);
-
-      //Create node and insert into tree
-      temp = createNode(hashValue, p->d_name);
-
-      printf("Temp address: %x\n", temp);
-      printf("Temp left address: %x\n", temp->left);
-      printf("Temp right address: %x\n", temp->right);
-
-      // Insert into tree
-      insert(temp, rt);
-
-      // Close file
-      fclose(fp);
 
       print_descendants(path, rt);
     }

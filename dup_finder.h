@@ -17,7 +17,7 @@ int is_dir(char *);
 
 // hashGen.c
 void to_hex_string(unsigned char bytes[], char str[], int len);
-void getHash(FILE *fp,char *hashStr);
+void getHash(char *,char *hashStr);
 
 // tree2.c
 struct node *createNode(char *, char *);

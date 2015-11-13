@@ -46,17 +46,18 @@ int main(int argc, char const *argv[]) {
 
 void insert(struct node* n, struct node** root) {
 
- 	printf("Address of n: %x\n", n);
-	printf("Address of n->left: %x\n", n->left);
-	printf("Address of n->right: %x\n", n->right);
+ 	//printf("Address of n: %x\n", n);
+	//printf("Address of n->left: %x\n", n->left);
+	//printf("Address of n->right: %x\n", n->right);
 
-	printf("Address of root: %x\n", (*root));
-	printf("Address of root->left: %x\n", (*root)->left);
-	printf("Address of root->right: %x\n", (*root)->right);
+	//printf("Address of root: %x\n", (*root));
+	//printf("Address of root->left: %x\n", (*root)->left);
+	//printf("Address of root->right: %x\n", (*root)->right);
 
+	//printf("BP5\n");
 	if (*root == NULL) {
-		printf("*root == NULL : True\n");
-		printf("File Inserted: %s\n", n->fileName);
+		//printf("*root == NULL : True\n");
+		//printf("File Inserted: %s\n", n->fileName);
 		*root = n;
 	}
 
@@ -90,15 +91,15 @@ struct node *createNode(char* hash, char *file) {
 	temp->fileName = file;
 	temp->left = NULL;
 	temp->right = NULL;
-    printf("Address of node: %x\n", temp);
-	printf("Address of new left node: %x\n", temp->left);
-	printf("Address of new right node: %x\n", temp->right);
+    //printf("Address of node: %x\n", temp);
+	//printf("Address of new left node: %x\n", temp->left);
+	//printf("Address of new right node: %x\n", temp->right);
 
 	return temp;
 }
 
 void printTree(struct node* p) {
-	printf("Before print.\n");
+	//printf("Before print.\n");
 	if (p->left != NULL) {
 		printTree(p->left);
 	}

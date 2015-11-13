@@ -3,8 +3,6 @@
 #include <openssl/sha.h>
 #include "dup_finder.h"
 
-void getHash(FILE *, char *hashStr);
-
 /*
 int main(int argc, char const *argv[])
 {
@@ -66,19 +64,18 @@ int main(int argc, char const *argv[])
 /* 
 Function to compute file hash
 */
-void getHash(FILE *fp, char *hashStr) {
+void getHash(char *file, char *hashStr) {
  	int c;
  	unsigned char hash[SHA_DIGEST_LENGTH];
  	//char hash_as_string[SHA_DIGEST_LENGTH*2+1];
 
  	SHA_CTX ctx;
- 	/*FILE *fp;
+ 	FILE *fp;
   
- 	if ((fp=fopen(fp, "r"))==NULL) {
+ 	if ((fp=fopen(file, "r"))==NULL) {
     		fprintf(stderr, "error opening %s for reading\n", *fp);
     }
-    */
-
+    printf("Opened file to hash: %s\n\n", file);
     SHA1_Init(&ctx);
    	
    	while ((c=fgetc(fp))!=EOF) {
@@ -88,6 +85,8 @@ void getHash(FILE *fp, char *hashStr) {
    	SHA1_Final(hash, &ctx);
    	//printf("Made it here\n");
    	to_hex_string(hash, hashStr, SHA_DIGEST_LENGTH);
+
+    fclose(fp);
 
    	//return hashStr;
 
