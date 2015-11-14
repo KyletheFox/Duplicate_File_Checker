@@ -3,61 +3,9 @@
 #include <string.h>
 #include "dup_finder.h"
 
-/*
-	Program will only consist of nodes. The program must keep
-	track of the root node. 
-*/
-
-/*
-struct node *createNode(int);
-void insert(struct node*, struct node**);
-void printTree(struct node*);
-*/
-
-/* ----------- TEST MAIN ----------
-int main(int argc, char const *argv[]) {
-	
-
-	// Create rootnode pointer
-	struct node* root;
-
-	// Create rootNode
-	struct node* r = createNode("Apple");
-	
-	// Create a couple Nodes
-	struct node* n1 = createNode("Banana");
-	struct node* n2 = createNode("Acorn");
-	struct node* n3 = createNode("Zebra");
-
-	// Insert all nodes
-	insert(r, &root);
-	insert(n1, &root);
-	insert(n2, &root);
-	insert(n3, &root);
-
-	// Print tree
-	printTree(root);
-
-	printf("\n");
-	
-	return 0;
-}
-*/
-
 void insert(struct node* n, struct node** root) {
 
- 	//printf("Address of n: %x\n", n);
-	//printf("Address of n->left: %x\n", n->left);
-	//printf("Address of n->right: %x\n", n->right);
-
-	//printf("Address of root: %x\n", (*root));
-	//printf("Address of root->left: %x\n", (*root)->left);
-	//printf("Address of root->right: %x\n", (*root)->right);
-
-	//printf("BP5\n");
 	if (*root == NULL) {
-		//printf("*root == NULL : True\n");
-		//printf("File Inserted: %s\n", n->fileName);
 		*root = n;
 	}
 
