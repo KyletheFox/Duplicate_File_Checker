@@ -51,7 +51,7 @@ void printTree(struct node* p) {
 	if (p->left != NULL) {
 		printTree(p->left);
 	}
-	printf("%s\n", p->hash);
+	printf("%s: %s\n", p->fileName, p->hash);
 	if (p->right != NULL) {
 		printTree(p->right);
 	}
