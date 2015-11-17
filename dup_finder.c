@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
 
   print_descendants(argv[1], &root);
 
-  printTree(root);
+  printCopies(root);
 
   return EXIT_SUCCESS;
 }
@@ -46,6 +46,7 @@ void print_descendants(char *pathname, struct node** rt) {
     char path[MAX_PATH_LENGTH];
 
     char *hashStr;
+    char *pathStr;
     struct node* temp;
     
     if ((d = opendir(pathname)) == NULL){
@@ -59,11 +60,12 @@ void print_descendants(char *pathname, struct node** rt) {
 	continue;
      
 
-      printf("%s\n", p->d_name);
+      //printf("%s\n", p->d_name);
 
       snprintf(path, MAX_PATH_LENGTH, "%s/%s", pathname, p->d_name);
 
-      // Malloc hash
+      if(!is_dir(path)) {
+      // Malloc hashStr
       if ((hashStr = (char *)malloc(SHA_DIGEST_LENGTH*2+1)) == NULL)
       {
         printf("MALLOC hashStr Error\n");
@@ -72,9 +74,21 @@ void print_descendants(char *pathname, struct node** rt) {
 
       getHash(path, hashStr);
 
-      temp = createNode(hashStr, path);
+      // Malloc pathStr
+      if ((pathStr = (char *)malloc(MAX_PATH_LENGTH)) == NULL)
+      {
+        printf("MALLOC pathStr Error\n");
+        exit(1);
+      }
 
+      pathStr = path;
+
+      temp = createNode(hashStr, pathStr);
+      
+      //printf("temp->filename: %s\n", temp->fileName);
       insert(temp, rt);
+      //printf("temp->copy after insert: %d\n", temp->copy);
+      }
 
       print_descendants(path, rt);
     }

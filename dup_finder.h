@@ -2,7 +2,7 @@
 #define DUP_FINDER_H_INCLUDED
 
 struct node {
-	int *copy;
+	int copy;
 	char *fileName; 
 	char *hash;
 	struct node* left;
@@ -10,7 +10,6 @@ struct node {
 } node;
 
 // printDir.c 
-void usage(char**);
 void make_space(int);
 void print_descendants(char *, struct node**);
 int is_dir(char *);
@@ -23,6 +22,7 @@ void getHash(char *,char *hashStr);
 struct node *createNode(char *, char *);
 void insert(struct node*, struct node**);
 void printTree(struct node*);
+void printCopies(struct node*);
 
 
 #endif

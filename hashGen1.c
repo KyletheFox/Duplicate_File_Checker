@@ -14,7 +14,7 @@ void getHash(char *file, char *hashStr) {
  	SHA_CTX ctx;
  	FILE *fp;
 
-  printf("should be full path: %s\n", file);
+  //printf("should be full path: %s\n", file);
   
  	if ((fp=fopen(file, "r"))==NULL) {
     		fprintf(stderr, "error opening %s for reading\n", *fp);

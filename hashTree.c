@@ -10,10 +10,15 @@ void insert(struct node* n, struct node** root) {
 	}
 
 	else {
-
+		//printf("strcmp(n->hash,(*root)->hash): %d\n", strcmp(n->hash,(*root)->hash));
 		if (strcmp(n->hash,(*root)->hash) >= 0) {
-			//printf("Entering right node\n");
-			//printf("right node address: %x\n", (*root)->right);
+			
+			if (strcmp(n->hash,(*root)->hash)==0) {
+				n->copy=1;
+				(*root)->copy=1;
+			}
+			
+
 			insert(n, &((*root)->right));
 		}
 
@@ -39,9 +44,6 @@ struct node *createNode(char* hash, char *file) {
 	temp->fileName = file;
 	temp->left = NULL;
 	temp->right = NULL;
-    //printf("Address of node: %x\n", temp);
-	//printf("Address of new left node: %x\n", temp->left);
-	//printf("Address of new right node: %x\n", temp->right);
 
 	return temp;
 }
@@ -54,6 +56,19 @@ void printTree(struct node* p) {
 	printf("%s: %s\n", p->fileName, p->hash);
 	if (p->right != NULL) {
 		printTree(p->right);
+	}
+
+}
+
+void printCopies(struct node* p) {
+	//printf("Before print.\n");
+	if (p->left != NULL) {
+		printCopies(p->left);
+	}
+	if (p->copy == 1)
+		printf("%s: %s\n", p->fileName, p->hash);
+	if (p->right != NULL) {
+		printCopies(p->right);
 	}
 
 }
